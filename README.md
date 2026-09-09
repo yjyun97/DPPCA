@@ -21,9 +21,15 @@ This section complements the description in Appendix H of the paper, which provi
 - **questionnaire.R**: This script reads in the file **questionnaire.txt** and produces two text files, which consists of lists of questions that we keep and remove (in separate files). The text files are in the LATEX format and can be copy-and-pasted to a LATEX renderer and compiled for readability. 
 - **survey_cleaning.R**: This script reads in the file **questionnaire.txt** and produces the ANES survey dataset along with the corresponding labels. 
 
+#### Datasets
+
+The folder **data** contains the ANES survey dataset and the 1000 Genomes dataset. The ANES survey dataset is a cleaned version of the dataset available at [3], and we obtained the 1000 Genomes dataset by following the tutorial at [4]. More discussion of the datasets can be found in Appendix G and H of the paper.
+
 [1]. Center for High Throughput Computing. Center for high throughput computing, 2006. URL
 https://chtc.cs.wisc.edu/.
 
 [2] P. D. Hoff. Simulation of the matrix Bingham–von Mises–Fisher distribution, with applications to multivariate and relational data. Journal of Computational and Graphical Statistics, 18(2): 438–456, 2009.
 
 [3] American National Election Studies. Anes 2024 pilot study. Dataset and documentation, 2024. URL https://electionstudies.org/data-bcenter/2024-bpilot-bstudy/. March 19, 2024 version. 
+
+[4] K. Blighe. Tutorial: Produce PCA bi-plot for 1000 Genomes phase iii - version 2. https://www.biostars.org/p/335605/, 2018. Accessed: 2025-09-23.
