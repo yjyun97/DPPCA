@@ -1,12 +1,12 @@
 %% Citation: some parts of the codes are written by ChatGPT
 
 %% Specifies data
-WHICH_DATA = "1000Genomes"; % 1000Genomes, survey
+WHICH_DATA = "survey"; % 1000Genomes, survey
 
 %% Formats plot 
 TILESIZE = 36;
 LEGEND_SPACE = 8;
-FONTSIZE = 105;
+FONTSIZE = 90;
 LINEWIDTH = 10;
 MARKERSIZE = 22;
 GRIDCOLOR = [0.2 0.2 0.2];
