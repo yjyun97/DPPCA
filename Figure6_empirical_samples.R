@@ -3,8 +3,8 @@
 
 k = 1 # number of principal components
 beta = 1 # privacy budget
-N = 100000 # number of samples 
-N_iter = 200 # number of iterations of Gibbs sampler
+N = 30000 # number of samples 
+N_iter = 50 # number of iterations of Gibbs sampler
 FOLDER_OUTPUT = "samples/" # specifies folder to save the output to 
 WHICH_DATA = "survey" # 1000Genomes, survey
 
@@ -62,11 +62,12 @@ vec_alter = rep(0, N)
 set.seed(seed)
 for (i in 1:N) {
   V = fun_V_Gibbs(beta, k, SigmaX, N_iter = N_iter)
-  vec_null[i] = sum((t(V) %*% x_star) ** 2)
+  vec_null[i] = sum((t(V) %*% x_star) ** 2) - sum(diag(t(V) %*% SigmaX %*% V))
 }
 for (i in 1:N) {
   V_tilde = fun_V_Gibbs(beta, k, SigmaX_tilde, N_iter = N_iter)
-  vec_alter[i] = sum((t(V_tilde) %*% x_star) ** 2)
+  vec_alter[i] = sum((t(V_tilde) %*% x_star) ** 2) - 
+    sum(diag(t(V_tilde) %*% SigmaX %*% V_tilde))
 }
 
 ##------------------------------------------------------------------------------
