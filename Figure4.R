@@ -1,11 +1,11 @@
 ##------------------------------------------------------------------------------
 ## Specifies parameters 
 
-vec_beta = c(1, 2, 4, 8) # noise parameters
+vec_beta = c(0, 0.5, 1, 2, 4, 8) # noise parameters
 #vec_w = c(0.5, 1, 1.5) # privacy parameter
 seed = 1 # seed
 FOLDER_OUTPUT = "outputs/" # specifies folder to save the output to 
-WHICH_DATA = "1000Genomes" # 1000Genomes, survey
+WHICH_DATA = "survey" # 1000Genomes, survey
 N_iter = 200 # number of iterations of Gibbs sampler
 
 ##------------------------------------------------------------------------------
@@ -44,13 +44,18 @@ U = svd_SigmaX$u
 for (i in 1:length(vec_beta)) {
   #w = vec_w[i]
   beta = vec_beta[i] # estimates noise level 
-  set.seed(seed)
-  # samples privatized PCs
-  V = fun_V_Gibbs(beta, 2, SigmaX, N_iter = N_iter)
-  # applies the Procrustes rotation 
-  res = PROCRUSTES(V, U[, 1:2], type = "orthogonal", verbose = F)
-  # computes projections 
-  X_proj = X %*% res$loadingsPROC 
+  if (beta == 0) {
+    # computes non-private projections 
+    X_proj = X %*% U[, 1:2]
+  } else {
+    set.seed(seed)
+    # samples privatized PCs
+    V = fun_V_Gibbs(beta, 2, SigmaX, N_iter = N_iter)
+    # applies the Procrustes rotation 
+    res = PROCRUSTES(V, U[, 1:2], type = "orthogonal", verbose = F)
+    # computes projections 
+    X_proj = X %*% res$loadingsPROC 
+  }
   # saves outputs 
   df = data.frame(
     x = X_proj[, 1], 
@@ -60,8 +65,13 @@ for (i in 1:length(vec_beta)) {
   path_output = paste0(FOLDER_OUTPUT, WHICH_DATA, "_Figure4_projections_", beta, 
                        ".txt")
   write.table(df, file = path_output, row.names = F, col.names = T)
-  sig = fun_sig(beta, 2, L)
-  print(paste0("Corresponds to noise parameter of ", round(sig, 2)))
+  if (beta != 0) {
+    sig = fun_sig(beta, 2, L)
+    if (!is.na(sig)) {
+      print(paste0("Beta = ", beta, " corresponds to noise parameter of ", 
+                   round(sig, 2)))
+    }
+  }
 }
 
 ##------------------------------------------------------------------------------
